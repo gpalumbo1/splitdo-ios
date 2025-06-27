@@ -16,7 +16,7 @@ import 'screens/friends_screen.dart';
 import 'services/auth_service.dart';
 import 'services/ad_service.dart';
 import 'firebase_options.dart';
-
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
