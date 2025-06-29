@@ -1,0 +1,27 @@
+workflows:
+  ios-build:
+    name: iOS Release Build
+    environment:
+      flutter: "3.22.1"
+      xcode: latest
+
+    scripts:
+      - name: Clean and get packages
+        script: |
+          flutter clean
+          flutter pub get
+
+      - name: Reset CocoaPods
+        script: |
+          cd ios
+          rm -rf Pods Podfile.lock build
+          pod repo update
+          pod install --repo-update
+          cd ..
+
+      - name: Build iOS app
+        script: |
+          flutter build ios --release --no-codesign
+
+    artifacts:
+      - build/ios/iphoneos/*.app
