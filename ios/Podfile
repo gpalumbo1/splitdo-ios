@@ -26,8 +26,6 @@ target 'Runner' do
   # Installa tutti i plugin Flutter
   flutter_install_all_ios_pods(File.dirname(File.realpath(__FILE__)))
   
-  # Configurazioni aggiuntive per plugin particolari
-  pod 'Firebase/Analytics', '~> 10.0' # Esempio per Firebase
 end
 
 # Post-install
