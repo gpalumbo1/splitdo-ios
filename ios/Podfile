@@ -1,20 +1,13 @@
-platform :ios, '13.0'
+platform :ios, '17.0'
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
-  File.foreach(generated_xcode_build_settings_path) do |line|
-    matches = line.match(/FLUTTER_ROOT\=(.*)/)
-    return matches[1].strip if matches
-  end
-  raise "FLUTTER_ROOT not found"
-end
-
-require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
+require_relative '../packages/flutter_tools/bin/podhelper'
 
 flutter_ios_podfile_setup
 
 target 'Runner' do
   use_frameworks! :linkage => :dynamic
-  use_modular_headers!
+  # use_modular_headers! # Decommenta solo se ti serve realmente, sconsigliato salvo necessità!
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 
