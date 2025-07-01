@@ -12,20 +12,20 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
-  firebase_core: ^2.16.0
-  firebase_auth: ^5.6.0
-  cloud_firestore: ^5.6.9
+  firebase_core: ^5.6.1
+  firebase_auth: ^4.9.1
+  cloud_firestore: ^5.6.10
   app_links: ^6.4.0
   shared_preferences: ^2.5.3
   provider: ^6.1.5
   url_launcher: ^6.3.1
   share_plus: ^11.0.0
-  firebase_messaging: ^15.2.7
+  firebase_messaging: ^15.2.8
   flutter_local_notifications: ^19.3.0
   flutter_slidable: ^4.0.0
   google_mobile_ads: ^6.0.0
   connectivity_plus: ^6.1.4
-  webview_flutter: ^4.10.0
+  webview_flutter: ^4.13.0
   
 dev_dependencies:
   flutter_test:
