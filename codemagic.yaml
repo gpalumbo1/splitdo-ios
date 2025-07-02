@@ -11,6 +11,8 @@ workflows:
           flutter clean
           rm -rf ios/Pods ios/Podfile.lock
           flutter pub get
+          flutter pub cache repair
+          dart run build_runner build --delete-conflicting-outputs
       - name: Update CocoaPods repo and cache
         script: |
           cd ios
