@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
-		194F601B2E0EB84F00A51DEF /* dgph in Resources */ = {isa = PBXBuildFile; fileRef = 19D0937F2E0EB67A00C3D7A1 /* dgph */; };
-		194F601D2E0EB86B00A51DEF /* webview_flutter_wkwebview_privacy.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 194F601C2E0EB86B00A51DEF /* webview_flutter_wkwebview_privacy.bundle */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		5C2A3ABA3C8FA8C7BF19BB9A /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F33A3212A20DCFC1E4A78E /* Pods_Runner.framework */; };
@@ -46,10 +44,6 @@
 /* Begin PBXFileReference section */
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
-		194F601C2E0EB86B00A51DEF /* webview_flutter_wkwebview_privacy.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = webview_flutter_wkwebview_privacy.bundle; path = ../webview_flutter_wkwebview/webview_flutter_wkwebview_privacy.bundle; sourceTree = "<group>"; };
-		19D0937D2E0EB58700C3D7A1 /* dgph */ = {isa = PBXFileReference; lastKnownFileType = file; name = dgph; path = "build/ios/Pods.build/Release-iphonesimulator/webview_flutter_wkwebview.build/dgph"; sourceTree = "<group>"; };
-		19D0937F2E0EB67A00C3D7A1 /* dgph */ = {isa = PBXFileReference; lastKnownFileType = file; path = dgph; sourceTree = "<group>"; };
-		19D093812E0EB69700C3D7A1 /* dgph */ = {isa = PBXFileReference; lastKnownFileType = file; name = dgph; path = "build/ios/Pods.build/Release-iphonesimulator/webview_flutter_wkwebview.build/dgph"; sourceTree = "<group>"; };
 		32A6D9304AB5AE22E88ACBB9 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,15 +87,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		19D093802E0EB67A00C3D7A1 /* webview_flutter_wkwebview.build */ = {
-			isa = PBXGroup;
-			children = (
-				19D0937F2E0EB67A00C3D7A1 /* dgph */,
-			);
-			name = webview_flutter_wkwebview.build;
-			path = "build/ios/Pods.build/Release-iphonesimulator/webview_flutter_wkwebview.build";
-			sourceTree = "<group>";
-		};
 		331C8082294A63A400263BE5 /* RunnerTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -137,10 +122,6 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
-				194F601C2E0EB86B00A51DEF /* webview_flutter_wkwebview_privacy.bundle */,
-				19D093812E0EB69700C3D7A1 /* dgph */,
-				19D093802E0EB67A00C3D7A1 /* webview_flutter_wkwebview.build */,
-				19D0937D2E0EB58700C3D7A1 /* dgph */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
 				97C146EF1CF9000F007C117D /* Products */,
@@ -279,8 +260,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				194F601D2E0EB86B00A51DEF /* webview_flutter_wkwebview_privacy.bundle in Resources */,
-				194F601B2E0EB84F00A51DEF /* dgph in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
