@@ -27,6 +27,7 @@ dependencies:
   connectivity_plus: ^6.1.4
   webview_flutter: ^4.12.0
   webview_flutter_wkwebview: ^3.22.0
+  webview_flutter_plus: ^0.4.19
 
   
 dev_dependencies:
