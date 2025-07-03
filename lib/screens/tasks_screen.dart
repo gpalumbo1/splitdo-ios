@@ -1,4 +1,3 @@
-
 // lib/screens/tasks_screen.dart
 
 import 'dart:convert';
@@ -580,31 +579,33 @@ class TasksScreenState extends State<TasksScreen>
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12)),
                                 child: ListTile(
-                                  onLongPress: () async {
-                                    FocusScope.of(context).unfocus(); // <--- AGGIUNTA QUI
-                                    // Dialog elimina
-                                    final confirmed = await showDialog<bool>(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                        title: const Text('Elimina Task?'),
-                                        content: Text('Sei sicuro di voler eliminare "${t.title}"?'),
-                                        actions: [
-                                          TextButton(
-                                            child: const Text('Annulla'),
-                                            onPressed: () => Navigator.pop(context, false),
-                                          ),
-                                          ElevatedButton(
-                                            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                                            child: const Text('Elimina', style: TextStyle(color: Colors.white)),
-                                            onPressed: () => Navigator.pop(context, true),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                    if (confirmed == true) {
-                                      await _deleteTask(t);
-                                    }
-                                  },
+                                  onLongPress: canDelete
+                                      ? () async {
+                                          FocusScope.of(context).unfocus(); // <--- AGGIUNTA QUI
+                                          // Dialog elimina
+                                          final confirmed = await showDialog<bool>(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              title: const Text('Elimina Task?'),
+                                              content: Text('Sei sicuro di voler eliminare "${t.title}"?'),
+                                              actions: [
+                                                TextButton(
+                                                  child: const Text('Annulla'),
+                                                  onPressed: () => Navigator.pop(context, false),
+                                                ),
+                                                ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                                  child: const Text('Elimina', style: TextStyle(color: Colors.white)),
+                                                  onPressed: () => Navigator.pop(context, true),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                          if (confirmed == true) {
+                                            await _deleteTask(t);
+                                          }
+                                        }
+                                      : null,
                                   contentPadding:
                                       const EdgeInsets.symmetric(
                                          horizontal: 16, vertical: 8),
@@ -706,5 +707,3 @@ class TasksScreenState extends State<TasksScreen>
     );
   }
 }
-
-
