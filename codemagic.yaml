@@ -1,28 +1,14 @@
 workflows:
   ios-release:
-    name: iOS Release
+    name: iOS simulator build
     environment:
       flutter: stable
-      xcode: 16.3
-      cocoapods: 1.16.2
+      xcode: latest
+      cocoapods: default
     scripts:
-      - name: Clean, update, and prepare project
-        script: |
-          flutter clean
-          rm -rf ios/Pods ios/Podfile.lock
-          flutter pub get
-          flutter pub cache repair
-          dart run build_runner build --delete-conflicting-outputs
-      - name: Update CocoaPods repo and cache
-        script: |
-          cd ios
-          pod cache clean --all
-          pod install --repo-update
-          cd ..
-      - name: Build iOS (no codesign)
-        script: |
-          flutter build ios --release --no-codesign
+      - name: Get flutter dependencieris
+        script: flutter pub get
+      - name: build ios app simultor
+        script: flutter build ios --simulator --debug
     artifacts:
       - build/ios/iphoneos/*.app
-      - build/ios/ipa/*.ipa
-      - build/**/outputs/**/*.aab
