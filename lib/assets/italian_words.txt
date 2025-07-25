@@ -1,0 +1,341 @@
+accendino
+acciughe
+aceto
+aceto balsamico
+aceto di mele
+acqua
+aglio
+aglio in polvere
+agrodolce
+albicocche
+alcool denaturato
+alici
+alloro
+amaro
+ananas
+anguria
+antizanzare
+aperitivo
+apribottiglie
+apriscatole
+aragosta
+arance
+aranci
+aranciata
+arrosto
+asparagi
+bacon
+baguette
+banane
+barbecue
+barbecue portatile
+basilico
+bastoncini per griglia
+bevande
+bibite gassate
+bicchiere
+bicchiere di plastica
+bicchiere riutilizzabile
+bietole
+bilancia digitale
+birra
+biscotti
+bistecca
+bollitore elettrico portatile
+borracce isolate
+borraccia
+borsa frigo
+borsa spazzatura
+borsa termica
+bottiglia
+bottiglia termica
+braciole
+brie
+brioche
+brioches
+brocca
+broccoli
+budino
+burro
+buste refrigerate
+caciocavallo
+caciotta
+calice da vino
+camembert
+canna da pesca
+cannella
+cannoli
+capperi
+caprino
+caramelle
+carne
+carta
+carta alluminio
+carta da forno
+carta igienica
+casseruola
+cavolfiore
+cavolo verza
+ceci
+cereali
+cestino da picnic
+cetrioli
+chicchi di cioccolato
+ciabatta
+ciambelle
+ciliegie
+cioccolatini
+cioccolato
+cipolla
+cocco
+cocktail
+cocomero
+cola
+colino
+coltello
+coltello abbattibile
+coltello da tavola
+coltello multiuso
+condimenti
+contenitore ermetico
+contenitore refrigerato
+contenitore sottovuoto
+contenitore trasparente
+coperta da picnic
+copri-piatti
+corda
+costine
+cozze
+cracker
+crescenza
+croissant
+cucchiaino
+cucchiaio
+curcuma
+cuscino da esterno
+dessert
+dischetto cucina
+dolci
+erba cipollina
+erbe aromatiche
+estintore
+fagioli
+fagiolini
+farro
+feta
+fiamma ossidrica portatile
+fichi
+focaccia
+forbici
+forchetta
+forchettina
+formaggi
+forno portatile
+fragole
+frigorifero portatile
+frutta
+frutti di mare
+fune
+funghi
+gamberetti
+gamberi
+gelato
+gin
+gnocchi
+gorgonzola
+grano
+grano saraceno
+grappa
+griglia
+griglia portatile
+grissini
+guanti
+guanti da forno
+hamburger
+insalata
+kit pronto soccorso
+kiwi
+lanterna da campeggio
+latticini
+lattuga
+legumi
+lenticchie
+lenzuola
+letto da campo gonfiabile
+limonata
+limoni
+liquore
+lombo
+maiale
+mais
+mandarini
+mango
+manzo
+marmellata
+martello
+melanzane
+mele
+melograno
+merluzzo
+mestolo
+mestolo forato
+miele
+morbido tessuto impermeabile
+mortadella
+mozzarella
+nasello
+olio
+olio di semi
+origano
+ortaggi
+orzo
+ostriche
+pacco garza
+padella
+padella antiaderente
+padelle pieghevoli
+padellino
+pandoro
+pane
+panettone
+panini
+panna cotta
+paprika
+parmigiano
+pasta
+pasticcini
+pastiera
+patate
+pecorino
+pentola
+pentolino
+pentolino pieghevole
+pepe
+pepe di cayenna
+pepe verde
+peperoncino
+peperoncino piccante
+peperoni
+pere
+pescato misto
+pesce
+pesce spada
+pesche
+piastrella da campeggio
+piatto
+piatto di plastica
+piatto fondo
+piatto piano
+piselli
+placca elettrica portatile
+polenta
+pollo
+polpo
+pomodori
+porri
+porta posate
+porta sandwich
+porta spezie magnetico
+porta vino termico
+portabottiglie portatile
+portacenere
+posate di plastica
+posate usa e getta
+prezzemolo
+prosciutto cotto
+prosciutto crudo
+provolone
+prugne
+quinoa
+ravanelli
+ricotta
+riso
+riso basmati
+riso integrale
+riso venere
+rosmarino
+rosticceria da viaggio
+rotaie frigorifero
+sacchetti freezer
+sacchetti igienici
+sacchi per rifiuti
+salame
+sale
+salmone
+salse
+salsiccia
+salumi
+sarde
+schiacciata
+secchiello ghiaccio
+sedano
+sedie pieghevoli
+seggiolino pieghevole
+senape
+snack
+soia
+spago
+spazzola
+spazzola per stoviglie
+spazzolina
+spazzolino e dentifricio da viaggio
+speck
+spezie miste
+spiedini
+spillatrice portatile
+spinaci
+spinaci novelli
+spremuta
+spugna
+stracchino
+stufa a gas portatile
+stufa a legna portatile
+stufa elettrica portatile
+stuoia
+succo di frutta
+tacchino
+tagliere
+taleggio
+tartine dolci
+tavolino pieghevole
+tazza
+tazza termica
+te alle erbe
+te nero
+te verde
+teglia
+teglia da forno
+tenda
+termometro
+termometro da cibo
+termometro da cucina
+thermos
+thè freddo alla pesca
+thè verde freddo
+timo
+tiramisu
+tisana
+torcia
+torcia elettrica
+torta
+tortellini
+tortillas
+tovaglia
+tovaglia impermeabile
+tovagliette usa e getta
+treppiede per pentola
+uva
+ventaglio pieghevole
+ventilatore portatile
+verdure
+vino
+vino analcolico
+vino novello
+vongole
+waffle
+whisky
+yogurt da bere
+zainetto
+zaino da trekking
+zucca
+zucchine
