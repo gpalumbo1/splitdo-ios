@@ -6,15 +6,13 @@ import 'package:firebase_core/firebase_core.dart';
 
 class DefaultFirebaseOptions {
   static const FirebaseOptions currentPlatform = FirebaseOptions(
-    apiKey: 'AIzaSyA3plncQb0Mwd_CPAMGt1vWqlZ2nJPBcPo',
-    appId: '1:358529967253:android:6da951f65b25da056f679c',
+    apiKey: 'AIzaSyCqAZEMvE7xvQb3OxnsgKPo14A1pPeSWK8',
+    appId: '1:358529967253:ios:6a54e471859cc9d66f679c',
     messagingSenderId: '358529967253',
     projectId: 'splitdo-app',
-
-    // Se serve, aggiungi qui anche:
-    // authDomain: '...',
-    // storageBucket: '...',
-    // measurementId: '...',
+    storageBucket: 'splitdo-app.firebasestorage.app',
+    iosBundleId: 'com.palopoapp.splitdo',
   );
 }
+
 
