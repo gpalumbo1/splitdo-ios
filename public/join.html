@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Apertura gruppo</title>
+  <title>Apertura gruppo (iOS)</title>
   <script>
-    (function() {
-      // 1) Leggo groupId dalla query string: ?groupId=… 
+    (function () {
       function getQueryParam(name) {
         const params = new URLSearchParams(window.location.search);
         return params.get(name);
@@ -14,73 +13,49 @@
 
       const groupId = getQueryParam('groupId');
       if (!groupId) {
-        // Se manca il parametro, mostro un messaggio di errore
         document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('status').innerText = 'Parametro groupId mancante.';
         });
         return;
       }
 
-      // 2) COSTRUISCO l’Intent URI per Android:
-      //    - scheme = “splitdo”
-      //    - host   = “group”
-      //    - passaggio di groupId come query (lo stesso schema che hai nel Manifest)
-      //    - fallback al Play Store se l’app NON è installata
-      const appPackage = 'com.palopoapp.splitdo'; // ← sostituisci con IL TUO package name reale
-      const intentUri =
-        'intent://group?groupId=' + encodeURIComponent(groupId) +
-        '#Intent;' +
-          'scheme=splitdo;' +
-          'package=' + appPackage + ';' +
-          // se l’app non è installata, apre il Play Store:
-          'S.browser_fallback_url=' + encodeURIComponent(
-            'https://play.google.com/store/apps/details?id=' + appPackage
-          ) +
-        ';end';
+      const iosSchemeUri = 'splitdo://group?groupId=' + encodeURIComponent(groupId);
 
-      // 3) Provo subito il redirect all’Intent:
-      window.location.replace(intentUri);
+      // Solo redirect su iOS
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
 
-      // 4) In ogni caso, entro 1.5 secondi rimbalzo al Play Store:
-      setTimeout(() => {
-        window.location.replace(
-          'https://play.google.com/store/apps/details?id=' + appPackage
-        );
-      }, 1500);
+      if (isIOS) {
+        // Prova ad aprire l'app via custom scheme
+        window.location.href = iosSchemeUri;
+
+        // (Facoltativo) fallback a una pagina info se l’app non è installata
+        setTimeout(() => {
+          document.getElementById('status').innerText = 'Se l’app non si apre, assicurati che sia installata.';
+        }, 1500);
+      } else {
+        document.addEventListener('DOMContentLoaded', () => {
+          document.getElementById('status').innerText = 'Questa pagina è solo per dispositivi iOS.';
+        });
+      }
+
+      // Popola link manuale
+      document.addEventListener('DOMContentLoaded', () => {
+        const linkElem = document.getElementById('manualLink');
+        if (linkElem && groupId) {
+          linkElem.href = iosSchemeUri;
+        }
+      });
     })();
   </script>
 </head>
 <body>
   <h1>Sto aprendo il gruppo…</h1>
   <p id="status">
-    Se l’app è installata, si aprirà automaticamente. Altrimenti verrai reindirizzato al Play Store.
+    Se l’app è installata, si aprirà automaticamente. Altrimenti, controlla che sia installata su questo dispositivo.
   </p>
   <p>
-    Se non succede nulla, <a id="manualLink" href="#">clicca qui</a>.
+    Se non succede nulla, <a id="manualLink" href="#">clicca qui</a> per aprire l’app manualmente.
   </p>
-  <script>
-    // Questo script serve per popolare il link “clicca qui” con lo stesso intentUri,
-    // in modo che, se il redirect automatico non funziona, l’utente possa toccare manualmente.
-    document.addEventListener('DOMContentLoaded', () => {
-      const params = new URLSearchParams(window.location.search);
-      const groupId = params.get('groupId');
-      if (!groupId) return;
-
-      const appPackage = 'com.palopoapp.splitdo'; // ← lo stesso package name di sopra
-      const intentUri =
-        'intent://group?groupId=' + encodeURIComponent(groupId) +
-        '#Intent;' +
-          'scheme=splitdo;' +
-          'package=' + appPackage + ';' +
-          'S.browser_fallback_url=' + encodeURIComponent(
-            'https://play.google.com/store/apps/details?id=' + appPackage
-          ) +
-        ';end';
-
-      const linkElem = document.getElementById('manualLink');
-      if (linkElem) linkElem.href = intentUri;
-    });
-  </script>
 </body>
 </html>
-
