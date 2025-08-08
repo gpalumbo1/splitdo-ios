@@ -8,7 +8,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:app_links/app_links.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'screens/login_screen.dart';
@@ -39,73 +38,62 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // Inizializza AdMob
-  await MobileAds.instance.initialize();
-
-  // Consenso GDPR UMP (solo callback, nessun await)
-  _requestGdprConsent();
-
-  FirebaseFirestore.instance.settings = const Settings(
-    persistenceEnabled: true,
-    cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
-  );
-
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  await AdService.instance.init();
-
+  await _setupNotifications();
   runApp(const MyApp());
 }
 
-// ---- GESTIONE GDPR (google_mobile_ads >= 6.0.0) ----
-void _requestGdprConsent() {
-  final consentInfo = ConsentInformation.instance;
-  final params = ConsentRequestParameters(
-    tagForUnderAgeOfConsent: false,
-    // consentDebugSettings: ConsentDebugSettings(
-    //   debugGeography: DebugGeography.debugGeographyEea, // Solo test
-    //   testIdentifiers: ['YOUR-DEVICE-ID'],
-    // ),
+Future<void> _setupNotifications() async {
+  flutterLocalNotificationsPlugin.initialize(
+    const InitializationSettings(
+      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+    ),
+    onDidReceiveNotificationResponse: (response) {
+      if (response.payload != null) {
+        final data = jsonDecode(response.payload!);
+        final groupId = data['groupId'] as String?;
+        if (groupId != null) {
+          navigatorKey.currentState?.pushNamed(
+            '/groupDetail',
+            arguments: {'groupId': groupId, 'joinOnOpen': true},
+          );
+        }
+      }
+    },
   );
 
-  consentInfo.requestConsentInfoUpdate(
-    params,
-    () {
-      consentInfo.isConsentFormAvailable().then((available) {
-        if (available) {
-          _loadAndShowConsentForm();
-        }
-      });
-    },
-    (FormError error) {
-      debugPrint('Errore aggiornamento consenso: ${error.message}');
-      // L'app parte comunque anche se errore consenso!
-    },
-  );
-}
+  FirebaseMessaging.instance.requestPermission();
+  FirebaseMessaging.onMessage.listen((msg) {
+    final n = msg.notification;
+    if (n != null) {
+      flutterLocalNotificationsPlugin.show(
+        n.hashCode,
+        n.title,
+        n.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            channel.id,
+            channel.name,
+            channelDescription: channel.description,
+            icon: '@mipmap/ic_launcher',
+          ),
+        ),
+        payload: jsonEncode(msg.data),
+      );
+    }
+  });
 
-void _loadAndShowConsentForm() {
-  ConsentForm.loadConsentForm(
-    (ConsentForm form) {
-      form.show((FormError? error) async {
-        if (error != null) {
-          debugPrint('Errore show form: ${error.message}');
-        } else {
-          ConsentInformation.instance.canRequestAds().then((canRequest) async {
-            if (canRequest) {
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.setBool('gdpr_accepted', true);
-            }
-          });
-        }
-      });
-    },
-    (FormError error) {
-      debugPrint('Errore caricamento form: ${error.message}');
-    },
-  );
+  FirebaseMessaging.onMessageOpenedApp.listen((msg) {
+    final groupId = msg.data['groupId'] as String?;
+    if (groupId != null) {
+      navigatorKey.currentState?.pushNamed(
+        '/groupDetail',
+        arguments: {'groupId': groupId, 'joinOnOpen': true},
+      );
+    }
+  });
 }
-// --------------------------------------------------- //
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -227,61 +215,6 @@ class _MyAppState extends State<MyApp> {
     super.dispose();
   }
 
-  Future<void> _setupNotifications() async {
-    flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
-
-    flutterLocalNotificationsPlugin.initialize(
-      const InitializationSettings(
-        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
-      ),
-      onDidReceiveNotificationResponse: (response) {
-        if (response.payload != null) {
-          final data = jsonDecode(response.payload!);
-          final groupId = data['groupId'] as String?;
-          if (groupId != null) {
-            navigatorKey.currentState?.pushNamed(
-              '/groupDetail',
-              arguments: {'groupId': groupId, 'joinOnOpen': true},
-            );
-          }
-        }
-      },
-    );
-
-    FirebaseMessaging.instance.requestPermission();
-    FirebaseMessaging.onMessage.listen((msg) {
-      final n = msg.notification;
-      if (n != null) {
-        flutterLocalNotificationsPlugin.show(
-          n.hashCode,
-          n.title,
-          n.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              channelDescription: channel.description,
-              icon: '@mipmap/ic_launcher',
-            ),
-          ),
-          payload: jsonEncode(msg.data),
-        );
-      }
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((msg) {
-      final groupId = msg.data['groupId'] as String?;
-      if (groupId != null) {
-        navigatorKey.currentState?.pushNamed(
-          '/groupDetail',
-          arguments: {'groupId': groupId, 'joinOnOpen': true},
-        );
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     if (!_initialized) {
@@ -348,4 +281,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
