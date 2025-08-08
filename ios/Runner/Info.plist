@@ -47,5 +47,28 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+  
+  <!-- Deep linking support -->
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>splitdo</string> <!-- URL schema per deep link -->
+      </array>
+    </dict>
+  </array>
+
+  <!-- Support for background fetch and remote notifications -->
+  <key>UIBackgroundModes</key>
+  <array>
+    <string>fetch</string>
+    <string>remote-notification</string>
+  </array>
+
+  <!-- Firebase AppDelegate proxy -->
+  <key>FirebaseAppDelegateProxyEnabled</key>
+  <false/> <!-- Disabilita il proxy Firebase, se necessario -->
+  
 </dict>
 </plist>
