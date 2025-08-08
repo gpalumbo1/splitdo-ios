@@ -1,61 +1,128 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Apertura gruppo (iOS)</title>
-  <script>
-    (function () {
-      function getQueryParam(name) {
-        const params = new URLSearchParams(window.location.search);
-        return params.get(name);
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>La mia app Firebase</title>
+
+  <!-- Firebase SDK - usa solo i moduli necessari -->
+  <script defer src="/__/firebase/11.8.1/firebase-app-compat.js"></script>
+  <script defer src="/__/firebase/11.8.1/firebase-auth-compat.js"></script>
+  <script defer src="/__/firebase/11.8.1/firebase-database-compat.js"></script>
+  <script defer src="/__/firebase/11.8.1/firebase-firestore-compat.js"></script>
+  <script defer src="/__/firebase/11.8.1/firebase-functions-compat.js"></script>
+  <script defer src="/__/firebase/11.8.1/firebase-messaging-compat.js"></script>
+  <script defer src="/__/firebase/11.8.1/firebase-storage-compat.js"></script>
+  <script defer src="/__/firebase/11.8.1/firebase-analytics-compat.js"></script>
+  <script defer src="/__/firebase/11.8.1/firebase-remote-config-compat.js"></script>
+  <script defer src="/__/firebase/11.8.1/firebase-performance-compat.js"></script>
+
+  <!-- Inizializzazione Firebase (senza emulatori) -->
+  <script defer src="/__/firebase/init.js"></script>
+
+  <style>
+    body {
+      background: #ECEFF1;
+      color: rgba(0,0,0,0.87);
+      font-family: Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    #message {
+      background: white;
+      max-width: 360px;
+      margin: 100px auto 16px;
+      padding: 32px 24px;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    }
+    #message h1 {
+      font-size: 22px;
+      font-weight: 300;
+      color: rgba(0,0,0,0.6);
+      margin: 0 0 16px;
+    }
+    #message p {
+      line-height: 140%;
+      margin: 16px 0 24px;
+      font-size: 14px;
+    }
+    #message a {
+      display: block;
+      text-align: center;
+      background: #039be5;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: white;
+      padding: 16px;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    }
+    #load {
+      color: rgba(0,0,0,0.4);
+      text-align: center;
+      font-size: 13px;
+    }
+    @media (max-width: 600px) {
+      body, #message {
+        margin-top: 0;
+        background: white;
+        box-shadow: none;
       }
-
-      const groupId = getQueryParam('groupId');
-      if (!groupId) {
-        document.addEventListener('DOMContentLoaded', () => {
-          document.getElementById('status').innerText = 'Parametro groupId mancante.';
-        });
-        return;
+      body {
+        border-top: 16px solid #ffa100;
       }
-
-      const iosSchemeUri = 'splitdo://group?groupId=' + encodeURIComponent(groupId);
-
-      // Solo redirect su iOS
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
-
-      if (isIOS) {
-        // Prova ad aprire l'app via custom scheme
-        window.location.href = iosSchemeUri;
-
-        // (Facoltativo) fallback a una pagina info se l’app non è installata
-        setTimeout(() => {
-          document.getElementById('status').innerText = 'Se l’app non si apre, assicurati che sia installata.';
-        }, 1500);
-      } else {
-        document.addEventListener('DOMContentLoaded', () => {
-          document.getElementById('status').innerText = 'Questa pagina è solo per dispositivi iOS.';
-        });
-      }
-
-      // Popola link manuale
-      document.addEventListener('DOMContentLoaded', () => {
-        const linkElem = document.getElementById('manualLink');
-        if (linkElem && groupId) {
-          linkElem.href = iosSchemeUri;
-        }
-      });
-    })();
-  </script>
+    }
+  </style>
 </head>
 <body>
-  <h1>Sto aprendo il gruppo…</h1>
-  <p id="status">
-    Se l’app è installata, si aprirà automaticamente. Altrimenti, controlla che sia installata su questo dispositivo.
-  </p>
-  <p>
-    Se non succede nulla, <a id="manualLink" href="#">clicca qui</a> per aprire l’app manualmente.
-  </p>
+  <div id="message">
+    <h1>Benvenuto!</h1>
+    <p>Firebase Hosting è pronto. Inizia a costruire la tua app web compatibile con iOS e Android.</p>
+    <a target="_blank" href="https://firebase.google.com/docs/hosting?hl=it">Documentazione Hosting</a>
+  </div>
+  <p id="load">Caricamento SDK Firebase…</p>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const loadEl = document.querySelector('#load');
+
+      try {
+        const app = firebase.app();
+        const features = [
+          'auth',
+          'database',
+          'firestore',
+          'functions',
+          'messaging',
+          'storage',
+          'analytics',
+          'remoteConfig',
+          'performance',
+        ].filter(f => typeof app[f] === 'function');
+
+        // Avvio Analytics
+        if (firebase.analytics) {
+          firebase.analytics();
+        }
+
+        // Messaging - Richiesta permesso notifiche (su iOS Safari supporto da iOS 16.4+)
+        if (firebase.messaging && 'Notification' in window) {
+          firebase.messaging().getToken({ vapidKey: 'INSERISCI_LA_TUA_VAPID_KEY' })
+            .then(token => {
+              console.log('Token di notifica:', token);
+            })
+            .catch(err => {
+              console.warn('Notifiche non disponibili o negate:', err);
+            });
+        }
+
+        loadEl.textContent = `Firebase SDK pronto con: ${features.join(', ')}`;
+      } catch (e) {
+        console.error(e);
+        loadEl.textContent = 'Errore nel caricamento di Firebase SDK, controlla la console.';
+      }
+    });
+  </script>
 </body>
 </html>
