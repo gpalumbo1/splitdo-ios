@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Apertura evento SplitDo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 1.5em;
+      color: #333;
+    }
+    p {
+      color: #555;
+    }
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+  </style>
+  <script>
+    (function () {
+      function getQueryParam(name) {
+        return new URLSearchParams(window.location.search).get(name);
+      }
+
+      const groupId = getQueryParam('groupId');
+      if (!groupId) {
+        document.addEventListener('DOMContentLoaded', () => {
+          document.getElementById('status').innerText = 'Parametro groupId mancante.';
+        });
+        return;
+      }
+
+      // Link personalizzati
+      const customSchemeUri = 'splitdo://group?groupId=' + encodeURIComponent(groupId);
+      const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.palopoapp.splitdo';
+      const appStoreUrl  = 'https://apps.apple.com/app/id6747895119';
+
+      const ua = navigator.userAgent.toLowerCase();
+      const isIOS = /iphone|ipad|ipod/.test(ua);
+      const isAndroid = /android/.test(ua);
+
+      if (isIOS) {
+        // Prova ad aprire l'app
+        window.location.href = customSchemeUri;
+        // Fallback App Store
+        setTimeout(() => {
+          window.location.href = appStoreUrl;
+        }, 1500);
+      } else if (isAndroid) {
+        // Prova ad aprire l'app
+        window.location.href = customSchemeUri;
+        // Fallback Play Store
+        setTimeout(() => {
+          window.location.href = playStoreUrl;
+        }, 1500);
+      } else {
+        document.addEventListener('DOMContentLoaded', () => {
+          document.getElementById('status').innerText = 'Questa pagina è solo per dispositivi mobili.';
+        });
+      }
+
+      // Link manuale
+      document.addEventListener('DOMContentLoaded', () => {
+        const linkElem = document.getElementById('manualLink');
+        if (linkElem) {
+          linkElem.href = customSchemeUri;
+        }
+      });
+    })();
+  </script>
+</head>
+<body>
+  <h1>Sto aprendo l’evento…</h1>
+  <p id="status">
+    Se l’app è installata, si aprirà automaticamente.  
+    In caso contrario, verrai reindirizzato allo store corretto.
+  </p>
+  <p>
+    Se non succede nulla, <a id="manualLink" href="#">clicca qui</a> per aprire manualmente.
+  </p>
+</body>
+</html>
