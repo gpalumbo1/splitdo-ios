@@ -702,7 +702,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
               ? null
               : () {
                   final link =
-                      'https://splitdo-app.web.app/open-group.html?groupId=${widget.groupId}';
+                      'https://splitdo-app.web.app/join.html?groupId=${widget.groupId}';
                   Share.share(
                       'Partecipa all\'evento \"${_group!.name}\" su SplitDo\n$link');
                 },
