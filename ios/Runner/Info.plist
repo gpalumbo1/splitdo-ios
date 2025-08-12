@@ -47,5 +47,19 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+
+	<!-- Custom URL scheme per aprire l'app da link splitdo:// -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.palopoapp.splitdo</string> <!-- Puoi usare il bundle ID -->
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>splitdo</string> <!-- Lo stesso che usi nei link -->
+			</array>
+		</dict>
+	</array>
+
 </dict>
 </plist>
