@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Apertura evento SplitDo</title>
+  <title>Apertura gruppo</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -23,7 +23,7 @@
     }
   </style>
   <script>
-    (function () {
+    (function() {
       function getQueryParam(name) {
         return new URLSearchParams(window.location.search).get(name);
       }
@@ -36,10 +36,10 @@
         return;
       }
 
-      // Link personalizzati
+      const appPackage = 'com.palopoapp.splitdo';
+      const playStoreUrl = 'https://play.google.com/store/apps/details?id=' + appPackage;
+      const appStoreUrl = 'https://apps.apple.com/app/id6747895119';
       const customSchemeUri = 'splitdo://group?groupId=' + encodeURIComponent(groupId);
-      const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.palopoapp.splitdo';
-      const appStoreUrl  = 'https://apps.apple.com/app/id6747895119';
 
       const ua = navigator.userAgent.toLowerCase();
       const isIOS = /iphone|ipad|ipod/.test(ua);
@@ -48,20 +48,29 @@
       if (isIOS) {
         // Prova ad aprire l'app
         window.location.href = customSchemeUri;
-        // Fallback App Store
+        // Dopo 1.5 secondi se non si è aperta, vai all'App Store
         setTimeout(() => {
           window.location.href = appStoreUrl;
         }, 1500);
       } else if (isAndroid) {
-        // Prova ad aprire l'app
-        window.location.href = customSchemeUri;
-        // Fallback Play Store
+        // Intent URI con fallback Play Store
+        const intentUri =
+          'intent://group?groupId=' + encodeURIComponent(groupId) +
+          '#Intent;' +
+            'scheme=splitdo;' +
+            'package=' + appPackage + ';' +
+            'S.browser_fallback_url=' + encodeURIComponent(playStoreUrl) +
+          ';end';
+        window.location.replace(intentUri);
+
+        // Sicurezza: se qualcosa va storto, dopo 1.5s vai al Play Store
         setTimeout(() => {
-          window.location.href = playStoreUrl;
+          window.location.replace(playStoreUrl);
         }, 1500);
       } else {
         document.addEventListener('DOMContentLoaded', () => {
-          document.getElementById('status').innerText = 'Questa pagina è solo per dispositivi mobili.';
+          document.getElementById('status').innerText =
+            'Questa pagina è solo per dispositivi mobili.';
         });
       }
 
@@ -76,7 +85,7 @@
   </script>
 </head>
 <body>
-  <h1>Sto aprendo l’evento…</h1>
+  <h1>Sto aprendo il gruppo…</h1>
   <p id="status">
     Se l’app è installata, si aprirà automaticamente.  
     In caso contrario, verrai reindirizzato allo store corretto.
