@@ -1,14 +1,32 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Apertura gruppo (iOS)</title>
+  <title>Apertura gruppo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 1.5em;
+      color: #333;
+    }
+    p {
+      color: #555;
+    }
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+  </style>
   <script>
-    (function () {
+    (function() {
       function getQueryParam(name) {
-        const params = new URLSearchParams(window.location.search);
-        return params.get(name);
+        return new URLSearchParams(window.location.search).get(name);
       }
 
       const groupId = getQueryParam('groupId');
@@ -19,31 +37,49 @@
         return;
       }
 
-      const iosSchemeUri = 'splitdo://group?groupId=' + encodeURIComponent(groupId);
+      const appPackage = 'com.palopoapp.splitdo';
+      const playStoreUrl = 'https://play.google.com/store/apps/details?id=' + appPackage;
+      const appStoreUrl = 'https://apps.apple.com/app/id6747895119';
+      const customSchemeUri = 'splitdo://group?groupId=' + encodeURIComponent(groupId);
 
-      // Solo redirect su iOS
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+      const ua = navigator.userAgent.toLowerCase();
+      const isIOS = /iphone|ipad|ipod/.test(ua);
+      const isAndroid = /android/.test(ua);
 
       if (isIOS) {
-        // Prova ad aprire l'app via custom scheme
-        window.location.href = iosSchemeUri;
-
-        // (Facoltativo) fallback a una pagina info se l’app non è installata
+        // Prova ad aprire l'app
+        window.location.href = customSchemeUri;
+        // Dopo 1.5 secondi se non si è aperta, vai all'App Store
         setTimeout(() => {
-          document.getElementById('status').innerText = 'Se l’app non si apre, assicurati che sia installata.';
+          window.location.href = appStoreUrl;
+        }, 1500);
+      } else if (isAndroid) {
+        // Intent URI con fallback Play Store
+        const intentUri =
+          'intent://group?groupId=' + encodeURIComponent(groupId) +
+          '#Intent;' +
+            'scheme=splitdo;' +
+            'package=' + appPackage + ';' +
+            'S.browser_fallback_url=' + encodeURIComponent(playStoreUrl) +
+          ';end';
+        window.location.replace(intentUri);
+
+        // Sicurezza: se qualcosa va storto, dopo 1.5s vai al Play Store
+        setTimeout(() => {
+          window.location.replace(playStoreUrl);
         }, 1500);
       } else {
         document.addEventListener('DOMContentLoaded', () => {
-          document.getElementById('status').innerText = 'Questa pagina è solo per dispositivi iOS.';
+          document.getElementById('status').innerText =
+            'Questa pagina è solo per dispositivi mobili.';
         });
       }
 
-      // Popola link manuale
+      // Link manuale
       document.addEventListener('DOMContentLoaded', () => {
         const linkElem = document.getElementById('manualLink');
-        if (linkElem && groupId) {
-          linkElem.href = iosSchemeUri;
+        if (linkElem) {
+          linkElem.href = customSchemeUri;
         }
       });
     })();
@@ -52,10 +88,11 @@
 <body>
   <h1>Sto aprendo il gruppo…</h1>
   <p id="status">
-    Se l’app è installata, si aprirà automaticamente. Altrimenti, controlla che sia installata su questo dispositivo.
+    Se l’app è installata, si aprirà automaticamente.  
+    In caso contrario, verrai reindirizzato allo store corretto.
   </p>
   <p>
-    Se non succede nulla, <a id="manualLink" href="#">clicca qui</a> per aprire l’app manualmente.
+    Se non succede nulla, <a id="manualLink" href="#">clicca qui</a> per aprire manualmente.
   </p>
 </body>
 </html>
