@@ -45,7 +45,7 @@ import UserNotifications
 
   // Mostra notifiche in foreground (iOS 10+)
   @available(iOS 10.0, *)
-  func userNotificationCenter(
+  override func userNotificationCenter(
     _ center: UNUserNotificationCenter,
     willPresent notification: UNNotification,
     withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
@@ -55,7 +55,7 @@ import UserNotifications
 
   // Gestisce il tap su una notifica
   @available(iOS 10.0, *)
-  func userNotificationCenter(
+  override func userNotificationCenter(
     _ center: UNUserNotificationCenter,
     didReceive response: UNNotificationResponse,
     withCompletionHandler completionHandler: @escaping () -> Void
