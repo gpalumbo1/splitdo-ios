@@ -1,7 +1,7 @@
 name: splitdo_app
 description: "A Flutter app for collaborative shopping lists and expense splitting."
 publish_to: 'none'
-version: 1.0.0+6
+version: 1.0.0+7
 
 environment:
   sdk: ">=2.18.0 <3.0.0"
