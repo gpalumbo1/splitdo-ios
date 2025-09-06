@@ -16,7 +16,7 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
-		A1B2C3D4E5F60708090A0B12 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 194828A1B2C3D4E5F6070809 /* GoogleService-Info.plist */; };
+		A1B2C3D4E5F60708090A0B12 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94828A1B2C3D4E5F6070809E /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
