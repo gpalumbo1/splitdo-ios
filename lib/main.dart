@@ -10,6 +10,7 @@ import 'package:app_links/app_links.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 
 import 'screens/login_screen.dart';
 import 'screens/groups_screen.dart';
@@ -35,12 +36,19 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage msg) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 }
 
+Future<void> _requestTrackingPermission() async {
+  final status = await AppTrackingTransparency.requestTrackingAuthorization();
+  print('Tracking status: $status');
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // Inizializza AdMob
   await MobileAds.instance.initialize();
+    // Richiesta tracking iOS 14+
+  await _requestTrackingPermission();
 
   // Consenso GDPR UMP (solo callback, nessun await)
   _requestGdprConsent();
