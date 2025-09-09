@@ -1,10 +1,11 @@
 import UIKit
 import Flutter
 import Firebase
+import FirebaseMessaging
 import UserNotifications
 
 @UIApplicationMain
-@objc class AppDelegate: FlutterAppDelegate {
+@objc class AppDelegate: FlutterAppDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
 
   override func application(
     _ application: UIApplication,
@@ -13,9 +14,12 @@ import UserNotifications
     // Inizializza Firebase
     FirebaseApp.configure()
 
-    // Richiesta permesso notifiche (solo iOS 10+)
+    // Imposta i delegati
+    UNUserNotificationCenter.current().delegate = self
+    Messaging.messaging().delegate = self
+
+    // Richiesta permesso notifiche
     if #available(iOS 10.0, *) {
-      UNUserNotificationCenter.current().delegate = self
       let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
       UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { granted, error in
         if let error = error {
@@ -25,12 +29,12 @@ import UserNotifications
         }
       }
     } else {
-      // Supporto vecchi iOS (quasi sempre inutile oggi)
+      // iOS < 10 (ormai raro)
       let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
       application.registerUserNotificationSettings(settings)
     }
 
-    // Registrazione per le notifiche push
+    // Registrazione per notifiche push
     application.registerForRemoteNotifications()
 
     // Registra i plugin Flutter
@@ -39,20 +43,43 @@ import UserNotifications
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
-  // Ricezione del token APNs da Apple
+  // ✅ Mostrare notifiche anche se l’app è in foreground
+  func userNotificationCenter(
+    _ center: UNUserNotificationCenter,
+    willPresent notification: UNNotification,
+    withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+  ) {
+    completionHandler([.banner, .sound, .badge]) // iOS 14+
+    // Se vuoi compatibilità vecchia: completionHandler([.alert, .sound, .badge])
+  }
+
+  // ✅ Gestione tap sulla notifica
+  func userNotificationCenter(
+    _ center: UNUserNotificationCenter,
+    didReceive response: UNNotificationResponse,
+    withCompletionHandler completionHandler: @escaping () -> Void
+  ) {
+    print("Notifica aperta: \(response.notification.request.content.userInfo)")
+    completionHandler()
+  }
+
+  // ✅ Ricezione del token FCM
+  func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+    print("FCM token iOS aggiornato: \(fcmToken ?? "")")
+    // Qui puoi inviare il token a Firestore come fai già su Android
+  }
+
+  // ✅ Ricezione del token APNs
   override func application(
     _ application: UIApplication,
     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
   ) {
-    // Passa il token APNs a Firebase
     Messaging.messaging().apnsToken = deviceToken
-
-    // (Facoltativo) Stampa il token per debug
     let tokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
     print("APNs device token ricevuto: \(tokenString)")
   }
 
-  // Gestione errori nella registrazione per notifiche remote
+  // ✅ Gestione errori registrazione
   override func application(
     _ application: UIApplication,
     didFailToRegisterForRemoteNotificationsWithError error: Error
