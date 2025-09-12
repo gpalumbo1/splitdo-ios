@@ -10,7 +10,7 @@ class AdService {
   static final AdService instance = AdService._internal();
 
   static const _prefKey = 'lastAdShownMillis';
-  static const _adUnitId = 'ca-app-pub-2912224344545278/6475787707';
+  static const _adUnitId = 'ca-app-pub-2912224344545278/5832765197';
 
   InterstitialAd? _interstitial;
 
