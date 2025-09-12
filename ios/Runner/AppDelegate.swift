@@ -3,6 +3,7 @@ import UIKit
 import Flutter
 import Firebase
 import UserNotifications
+import GoogleMobileAds
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -60,4 +61,11 @@ import UserNotifications
   ) {
     print("Registrazione notifiche fallita: \(error.localizedDescription)")
   }
+
+  func application(_ application: UIApplication,
+                 didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    GADMobileAds.sharedInstance().start(completionHandler: nil)
+    return true
+  }
+  
 }
