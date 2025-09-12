@@ -1,23 +1,34 @@
 import UIKit
 import Flutter
-import Firebase
+import FirebaseCore
+import FirebaseMessaging
 import UserNotifications
 import GoogleMobileAds
 
-@UIApplicationMain
+@main
 @objc class AppDelegate: FlutterAppDelegate {
 
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+    
     // Inizializza Firebase
     FirebaseApp.configure()
 
     // Inizializza Google Mobile Ads
     GADMobileAds.sharedInstance().start(completionHandler: nil)
 
-    // Richiesta permesso notifiche (solo iOS 10+)
+    // Configura notifiche push
+    configurePushNotifications(application)
+
+    // Registra i plugin Flutter
+    GeneratedPluginRegistrant.register(with: self)
+
+    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
+
+  private func configurePushNotifications(_ application: UIApplication) {
     if #available(iOS 10.0, *) {
       UNUserNotificationCenter.current().delegate = self
       let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
@@ -33,13 +44,7 @@ import GoogleMobileAds
       application.registerUserNotificationSettings(settings)
     }
 
-    // Registrazione per le notifiche push
     application.registerForRemoteNotifications()
-
-    // Registra i plugin Flutter
-    GeneratedPluginRegistrant.register(with: self)
-
-    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
   // Ricezione del token APNs da Apple
