@@ -17,7 +17,7 @@ import GoogleMobileAds
     FirebaseApp.configure()
 
     // Inizializza Google Mobile Ads
-    //MobileAds.sharedInstance().start()
+    MobileAds.shared.start()
 
     // Configura notifiche push
     configurePushNotifications(application)
