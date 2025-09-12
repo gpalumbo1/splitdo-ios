@@ -3,12 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		1948F8002E6D7FAC00944173 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1948F7FF2E6D7FAC00944173 /* GoogleService-Info.plist */; };
+		1948F80B2E7460BE00944173 /* GoogleMobileAds.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1948F8072E74609C00944173 /* GoogleMobileAds.xcframework */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		5C2A3ABA3C8FA8C7BF19BB9A /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5F33A3212A20DCFC1E4A78E /* Pods_Runner.framework */; };
@@ -47,6 +48,14 @@
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		1948F7FE2E6D7F4000944173 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		1948F7FF2E6D7FAC00944173 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1948F8012E74609C00944173 /* CCTZ-LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = "CCTZ-LICENSE"; sourceTree = "<group>"; };
+		1948F8022E74609C00944173 /* NanoPB-LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = "NanoPB-LICENSE"; sourceTree = "<group>"; };
+		1948F8032E74609C00944173 /* OpenMeasurement-LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OpenMeasurement-LICENSE"; sourceTree = "<group>"; };
+		1948F8042E74609C00944173 /* OpenSSL-LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OpenSSL-LICENSE"; sourceTree = "<group>"; };
+		1948F8052E74609C00944173 /* TCMalloc-LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = "TCMalloc-LICENSE"; sourceTree = "<group>"; };
+		1948F8072E74609C00944173 /* GoogleMobileAds.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:EQHXZ8M8AV:Google LLC"; lastKnownFileType = wrapper.xcframework; path = GoogleMobileAds.xcframework; sourceTree = "<group>"; };
+		1948F8082E74609C00944173 /* GoogleMobileAdsPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMobileAdsPlaceholder.swift; sourceTree = "<group>"; };
+		1948F8092E74609C00944173 /* UserMessagingPlatform.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:EQHXZ8M8AV:Google LLC"; lastKnownFileType = wrapper.xcframework; path = UserMessagingPlatform.xcframework; sourceTree = "<group>"; };
 		32A6D9304AB5AE22E88ACBB9 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1948F80B2E7460BE00944173 /* GoogleMobileAds.xcframework in Frameworks */,
 				5C2A3ABA3C8FA8C7BF19BB9A /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -90,6 +100,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1948F8062E74609C00944173 /* Licenses */ = {
+			isa = PBXGroup;
+			children = (
+				1948F8012E74609C00944173 /* CCTZ-LICENSE */,
+				1948F8022E74609C00944173 /* NanoPB-LICENSE */,
+				1948F8032E74609C00944173 /* OpenMeasurement-LICENSE */,
+				1948F8042E74609C00944173 /* OpenSSL-LICENSE */,
+				1948F8052E74609C00944173 /* TCMalloc-LICENSE */,
+			);
+			path = Licenses;
+			sourceTree = "<group>";
+		};
+		1948F80A2E74609C00944173 /* GoogleMobileAdsSdkiOS-12.11.0 */ = {
+			isa = PBXGroup;
+			children = (
+				1948F8062E74609C00944173 /* Licenses */,
+				1948F8072E74609C00944173 /* GoogleMobileAds.xcframework */,
+				1948F8082E74609C00944173 /* GoogleMobileAdsPlaceholder.swift */,
+				1948F8092E74609C00944173 /* UserMessagingPlatform.xcframework */,
+			);
+			name = "GoogleMobileAdsSdkiOS-12.11.0";
+			path = "../../GoogleMobileAdsSdkiOS-12.11.0";
+			sourceTree = "<group>";
+		};
 		331C8082294A63A400263BE5 /* RunnerTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,6 +197,7 @@
 		F46A25B4EA43A3F2DD324C20 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1948F80A2E74609C00944173 /* GoogleMobileAdsSdkiOS-12.11.0 */,
 				F5F33A3212A20DCFC1E4A78E /* Pods_Runner.framework */,
 				444061D2FDBD276429983E25 /* Pods_RunnerTests.framework */,
 			);
