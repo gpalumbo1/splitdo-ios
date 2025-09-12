@@ -1,4 +1,3 @@
-
 import UIKit
 import Flutter
 import Firebase
@@ -15,6 +14,9 @@ import GoogleMobileAds
     // Inizializza Firebase
     FirebaseApp.configure()
 
+    // Inizializza Google Mobile Ads
+    GADMobileAds.sharedInstance().start(completionHandler: nil)
+
     // Richiesta permesso notifiche (solo iOS 10+)
     if #available(iOS 10.0, *) {
       UNUserNotificationCenter.current().delegate = self
@@ -27,7 +29,6 @@ import GoogleMobileAds
         }
       }
     } else {
-      // Supporto vecchi iOS (quasi sempre inutile oggi)
       let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
       application.registerUserNotificationSettings(settings)
     }
@@ -46,10 +47,7 @@ import GoogleMobileAds
     _ application: UIApplication,
     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
   ) {
-    // Passa il token APNs a Firebase
     Messaging.messaging().apnsToken = deviceToken
-
-    // (Facoltativo) Stampa il token per debug
     let tokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
     print("APNs device token ricevuto: \(tokenString)")
   }
@@ -61,11 +59,4 @@ import GoogleMobileAds
   ) {
     print("Registrazione notifiche fallita: \(error.localizedDescription)")
   }
-
-  func application(_ application: UIApplication,
-                 didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    GADMobileAds.sharedInstance().start(completionHandler: nil)
-    return true
-  }
-  
 }
