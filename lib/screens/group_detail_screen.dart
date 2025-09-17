@@ -43,7 +43,8 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
 
   void _loadInterstitial() {
     InterstitialAd.load(
-      adUnitId: "ca-app-pub-2912224344545278/5832765197", // Apertura-gruppi
+      //adUnitId: "ca-app-pub-2912224344545278/5832765197", // Apertura-gruppi
+      adUnitId: InterstitialAd.testAdUnitId,
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
