@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart'; // ADS
 
 import '../services/firestore_service.dart';
 import '../models/group.dart';
@@ -34,9 +35,36 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
   List<UserModel> _friends = [];
   Map<String, int> _localCounts = {};
 
-  // SOLO RAM per la sessione/app!
   bool _hasCalculatedOnceInSession = false;
   final GlobalKey<TasksScreenState> _tasksKey = GlobalKey<TasksScreenState>();
+
+  // ------------------ ADS ------------------
+  InterstitialAd? _interstitialAd;
+
+  void _loadInterstitial() {
+    InterstitialAd.load(
+      adUnitId: "ca-app-pub-2912224344545278/5832765197", // Apertura-gruppi
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (InterstitialAd ad) {
+          _interstitialAd = ad;
+          _showInterstitial();
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          _interstitialAd = null;
+          print("Errore caricamento interstitial: $error");
+        },
+      ),
+    );
+  }
+
+  void _showInterstitial() {
+    if (_interstitialAd != null) {
+      _interstitialAd!.show();
+      _interstitialAd = null;
+    }
+  }
+  // ------------------------------------------
 
   List<MapEntry<String, int>> get _frequentTasks {
     final entries = _localCounts.entries.toList()
@@ -47,6 +75,8 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
   @override
   void initState() {
     super.initState();
+
+    _loadInterstitial(); // ADS: mostro annuncio quando apro un gruppo
 
     if (widget.joinOnOpen) _fs.joinGroup(widget.groupId);
 
@@ -64,6 +94,12 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
         _currentTaskTitles = tasks.map((t) => t.title.trim()).toSet();
       });
     });
+  }
+
+  @override
+  void dispose() {
+    _interstitialAd?.dispose(); // ADS cleanup
+    super.dispose();
   }
 
   Future<void> _loadFriends() async {
@@ -488,7 +524,6 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
     );
   }
 
-  // FUNZIONE AGGIORNATA: esclude il mio utente dalla lista rimovibili
   void _showRemoveMember() {
     if (_group == null) return;
     final theme = Theme.of(context);
@@ -948,4 +983,3 @@ class _AnimatedPopupWrapper extends StatelessWidget {
     );
   }
 }
-
