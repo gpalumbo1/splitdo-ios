@@ -24,8 +24,17 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+
+	<!-- Google Mobile Ads -->
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-2912224344545278~1801202605</string>
+	<key>GADIsAdManagerApp</key>
+	<false/>
+
+	<!-- ATT richiesta per iOS 14+ -->
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Splitdo utilizza il tuo ID dispositivo per mostrarti annunci personalizzati e migliorare l’esperienza.</string>
+
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
@@ -53,10 +62,10 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>com.palopoapp.splitdo</string> <!-- Puoi usare il bundle ID -->
+			<string>com.palopoapp.splitdo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>splitdo</string> <!-- Lo stesso che usi nei link -->
+				<string>splitdo</string>
 			</array>
 		</dict>
 	</array>
