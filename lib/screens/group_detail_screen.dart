@@ -42,29 +42,47 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
   InterstitialAd? _interstitialAd;
 
   void _loadInterstitial() {
-    InterstitialAd.load(
-      //adUnitId: "ca-app-pub-2912224344545278/5832765197", // Apertura-gruppi
-      adUnitId: "ca-app-pub-3940256099942544/4411468910",
-      request: const AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (InterstitialAd ad) {
-          _interstitialAd = ad;
-          _showInterstitial();
-        },
-        onAdFailedToLoad: (LoadAdError error) {
-          _interstitialAd = null;
-          print("Errore caricamento interstitial: $error");
-        },
-      ),
-    );
-  }
+  InterstitialAd.load(
+    // adUnitId: "ca-app-pub-2912224344545278/5832765197", // tuo ID reale
+    adUnitId: "ca-app-pub-3940256099942544/4411468910", // 👈 test ID
+    request: const AdRequest(),
+    adLoadCallback: InterstitialAdLoadCallback(
+      onAdLoaded: (InterstitialAd ad) {
+        _interstitialAd = ad;
 
-  void _showInterstitial() {
-    if (_interstitialAd != null) {
-      _interstitialAd!.show();
-      _interstitialAd = null;
-    }
+        // Gestione corretta ciclo di vita
+        _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+          onAdDismissedFullScreenContent: (ad) {
+            ad.dispose();
+            _interstitialAd = null;
+            _loadInterstitial(); // precarico un altro
+          },
+          onAdFailedToShowFullScreenContent: (ad, error) {
+            debugPrint("Errore show interstitial: $error");
+            ad.dispose();
+            _interstitialAd = null;
+            _loadInterstitial();
+          },
+        );
+
+        _showInterstitial(); // Mostra subito
+      },
+      onAdFailedToLoad: (LoadAdError error) {
+        _interstitialAd = null;
+        debugPrint("Errore caricamento interstitial: $error");
+      },
+    ),
+  );
+}
+
+void _showInterstitial() {
+  if (_interstitialAd != null) {
+    _interstitialAd!.show();
+  } else {
+    debugPrint("Interstitial non pronto");
   }
+}
+
   // ------------------------------------------
 
   List<MapEntry<String, int>> get _frequentTasks {
