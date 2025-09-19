@@ -4,6 +4,8 @@ import FirebaseCore
 import FirebaseMessaging
 import UserNotifications
 import GoogleMobileAds
+import AppTrackingTransparency
+import AdSupport
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
@@ -12,12 +14,32 @@ import GoogleMobileAds
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    
+
     // Inizializza Firebase
     FirebaseApp.configure()
 
     // Inizializza Google Mobile Ads
-    MobileAds.shared.start()
+    MobileAds.shared.start(completionHandler: nil)
+
+    // Richiesta permesso tracking (iOS 14+)
+    if #available(iOS 14, *) {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        ATTrackingManager.requestTrackingAuthorization { status in
+          switch status {
+          case .authorized:
+            print("Tracking autorizzato ✅ IDFA: \(ASIdentifierManager.shared().advertisingIdentifier)")
+          case .denied:
+            print("Tracking negato ❌")
+          case .restricted:
+            print("Tracking ristretto ⚠️")
+          case .notDetermined:
+            print("Tracking non determinato ℹ️")
+          @unknown default:
+            print("Stato tracking sconosciuto")
+          }
+        }
+      }
+    }
 
     // Configura notifiche push
     configurePushNotifications(application)
