@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ import 'package:app_links/app_links.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart'; // 👈 ATT iOS
 
 import 'screens/login_screen.dart';
 import 'screens/groups_screen.dart';
@@ -40,11 +40,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  // 👇 Prima ATT (solo iOS)
+  await _requestAppTrackingTransparency();
+
   // Inizializza AdMob
   await MobileAds.instance.initialize();
 
-  // Consenso GDPR UMP (solo callback, nessun await)
-  _requestGdprConsent();
+  // Consenso GDPR UMP
+  await _requestGdprConsent();
 
   FirebaseFirestore.instance.settings = const Settings(
     persistenceEnabled: true,
@@ -58,53 +61,70 @@ void main() async {
   runApp(const MyApp());
 }
 
-// ---- GESTIONE GDPR (google_mobile_ads >= 6.0.0) ----
-void _requestGdprConsent() {
+// ---- GESTIONE ATT (solo iOS) ----
+Future<void> _requestAppTrackingTransparency() async {
+  try {
+    final status = await AppTrackingTransparency.trackingAuthorizationStatus;
+    if (status == TrackingStatus.notDetermined) {
+      await AppTrackingTransparency.requestTrackingAuthorization();
+    }
+  } catch (e) {
+    debugPrint("Errore ATT: $e");
+  }
+}
+
+// ---- GESTIONE GDPR ----
+Future<void> _requestGdprConsent() async {
   final consentInfo = ConsentInformation.instance;
   final params = ConsentRequestParameters(
     tagForUnderAgeOfConsent: false,
-    // consentDebugSettings: ConsentDebugSettings(
-    //   debugGeography: DebugGeography.debugGeographyEea, // Solo test
-    //   testIdentifiers: ['YOUR-DEVICE-ID'],
-    // ),
   );
+
+  final completer = Completer<void>();
 
   consentInfo.requestConsentInfoUpdate(
     params,
-    () {
-      consentInfo.isConsentFormAvailable().then((available) {
-        if (available) {
-          _loadAndShowConsentForm();
-        }
-      });
+    () async {
+      final available = await consentInfo.isConsentFormAvailable();
+      if (available) {
+        _loadAndShowConsentForm().then((_) => completer.complete());
+      } else {
+        completer.complete();
+      }
     },
     (FormError error) {
       debugPrint('Errore aggiornamento consenso: ${error.message}');
-      // L'app parte comunque anche se errore consenso!
+      completer.complete(); // L'app parte comunque
     },
   );
+
+  return completer.future;
 }
 
-void _loadAndShowConsentForm() {
+Future<void> _loadAndShowConsentForm() async {
+  final completer = Completer<void>();
+
   ConsentForm.loadConsentForm(
     (ConsentForm form) {
       form.show((FormError? error) async {
         if (error != null) {
           debugPrint('Errore show form: ${error.message}');
         } else {
-          ConsentInformation.instance.canRequestAds().then((canRequest) async {
-            if (canRequest) {
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.setBool('gdpr_accepted', true);
-            }
-          });
+          if (await ConsentInformation.instance.canRequestAds()) {
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setBool('gdpr_accepted', true);
+          }
         }
+        completer.complete();
       });
     },
     (FormError error) {
       debugPrint('Errore caricamento form: ${error.message}');
+      completer.complete();
     },
   );
+
+  return completer.future;
 }
 // --------------------------------------------------- //
 
